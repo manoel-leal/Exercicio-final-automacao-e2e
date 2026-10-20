@@ -1,0 +1,31 @@
+name: Testes Web E2E
+
+on:
+  workflow_dispatch
+
+jobs:
+  e2e-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Realizar Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Verificar Node version
+        uses: node --version
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Executar testes
+        run: npx cypress run
+
+      - name: Realizar Upload do relatório
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: relatorios
+          path: |
+            cypress/reports
+            cypress/screenshots
+            cypress/videos
