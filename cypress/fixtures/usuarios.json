@@ -1,0 +1,10 @@
+{
+  "usuarioCorreto": {
+    "email": "pgats_1792346971566@test.com",
+    "senha": "123456"
+  },
+  "usuarioIncorreto": {
+    "email": "pgats_1792346971566@test.com",
+    "senha": "12345"
+  }
+}

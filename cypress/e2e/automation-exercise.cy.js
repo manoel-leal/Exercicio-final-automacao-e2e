@@ -1,12 +1,14 @@
 /// <reference types="cypress" />
 
+const header = require('../modules/header/index.js')
 const cadastro = require('../modules/cadastro/index.js')
 const login = require('../modules/login/index.js')
+const usuarios = require('../fixtures/usuarios.json')
 
 describe('Automation Excercise', () =>{
     it('Cadastrar um novo usuário com sucesso', () =>{
-        cy.visit('https://automationexercise.com/')
-        cy.get('a[href*=login]').click()
+        cy.visit('/')
+        header.acessarMenuCadastro();
         
         cadastro.iniciarCadastro(`pgats_${Date.now()}@test.com`)
         cadastro.preencherCadastro()
@@ -14,36 +16,34 @@ describe('Automation Excercise', () =>{
     })
 
     it('Efetuar Login de Usuário com email e senha corretos', () => {
-        cy.visit('https://automationexercise.com/login')
+        cy.visit('/login')
 
-        login.realizarLogin('pgats_1792346971566@test.com', '123456')
+        login.realizarLogin(usuarios.usuarioCorreto.email, usuarios.usuarioCorreto.senha)
         login.verificarSeLoginFoiEfetuadoComSucesso()
     })
 
     it('Efetuar Login de Usuário email e senha INCORRETOS', () => {
-        cy.visit('https://www.automationexercise.com/login')
+        cy.visit('/login')
 
-        login.realizarLogin('pgats_1792346971566@test.com', '12345')
+        login.realizarLogin(usuarios.usuarioIncorreto.email, usuarios.usuarioIncorreto.senha)
         login.verificarLoginComDadosInvalidos()
 
      })
 
     it('Efetuar Logout', () => {
-        cy.visit('https://www.automationexercise.com/login')
+        cy.visit('/login')
 
-        // ACT
-        login.realizarLogin('pgats_1792346971566@test.com', '123456')
+        login.realizarLogin(usuarios.usuarioCorreto.email, usuarios.usuarioCorreto.senha)
 
-        // assert do login
         login.realizarLogout()
 
     })
 
   it('Tentar cadastrar usuário com e-mail já cadastrado', () => {
-    cy.visit('https://www.automationexercise.com')
-    cy.get('a[href*=login]').click()
+    cy.visit('/')
+    header.acessarMenuCadastro();
 
-    cadastro.iniciarCadastro('pgats_1792346971566@test.com')
+    cadastro.iniciarCadastro(usuarios.usuarioCorreto.email)
 
     cadastro.verificarQueUsuarioJaFoiCadastrado()
 
