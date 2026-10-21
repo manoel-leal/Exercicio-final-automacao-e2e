@@ -6,6 +6,7 @@ function realizarLogin(email, senha){
 }
 
 function verificarSeLoginFoiEfetuadoComSucesso(){
+        cy.wait(1000)
         cy.contains('.navbar-nav li', 'PGATS AUT')
         cy.get('.navbar-nav li')
             .contains('PGATS AUT')

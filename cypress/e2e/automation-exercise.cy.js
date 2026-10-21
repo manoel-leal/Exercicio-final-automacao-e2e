@@ -92,13 +92,39 @@ describe('Automation Excercise', () =>{
         homePage.verificarMensagemDeEnvioDeSubscricaoSucesso()
    })
 
-   it.only('Finalizar pedido: Criação de conta antes do checkout', () => {
+   it('Finalizar pedido: Criação de conta antes do checkout', () => {
         cy.visit('/')
         homePage.acessarMenuCadastro();
         
         cadastro.iniciarCadastro(`pgats_${Date.now()}@test.com`)
         cadastro.preencherCadastro()
         cadastro.verificarCadastroEfetuadoSucesso()
+
+        homePage.acessarMenuProdutos()
+
+        produtos.verificarTituloTodosProdutos()
+        produtos.clicarEmAdicionarNoCarrinhoDoPrimeiroProdutoListado()
+        produtos.clicarVisualizarCarrinho()
+
+        carrinho.clicarProsseguirComCheckout()
+        checkout.verificarTelaCheckout()
+        checkout.clicarProsseguirParaPagamento()
+
+        pagamento.informarDadosDoCartao(cartoes.cartaoValido.nomeNoCartao,
+                                        cartoes.cartaoValido.numeroCartao,
+                                        cartoes.cartaoValido.cvv,
+                                        cartoes.cartaoValido.mesExpiracao,
+                                        cartoes.cartaoValido.anoExpiracao
+        )
+
+        pedidoConcluido.verificarConclusaoPedido()
+   })
+
+    it('Finalizar pedido: realizar login antes do checkout', () => {
+        cy.visit('/login')
+
+        login.realizarLogin(usuarios.usuarioCorreto.email, usuarios.usuarioCorreto.senha)
+        login.verificarSeLoginFoiEfetuadoComSucesso()
 
         homePage.acessarMenuProdutos()
 
