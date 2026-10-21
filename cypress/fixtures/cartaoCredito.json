@@ -1,0 +1,9 @@
+{
+    "cartaoValido": {
+        "nomeNoCartao" : "PGATS AUT",
+        "numeroCartao": "5486742552189291",
+        "mesExpiracao": "08",
+        "anoExpiracao": "2027",
+        "cvv": "768"
+    }
+}

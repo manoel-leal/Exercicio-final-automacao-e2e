@@ -5,7 +5,13 @@ const cadastro = require('../modules/cadastro/index.js')
 const login = require('../modules/login/index.js')
 const produtos = require('../modules/produtos/index.js')
 const detalheProduto = require('../modules/detalheProduto/index.js')
+const carrinho = require('../modules/carrinho/index.js')
+const checkout = require('../modules/checkout/index.js')
+const pagamento = require('../modules/pagamento/index.js')
+const pedidoConcluido = require('../modules/pedidoConcluido/index.js')
+
 const usuarios = require('../fixtures/usuarios.json')
+const cartoes = require('../fixtures/cartaoCredito.json')
 
 describe('Automation Excercise', () =>{
     it('Cadastrar um novo usuário com sucesso', () =>{
@@ -84,6 +90,34 @@ describe('Automation Excercise', () =>{
         homePage.verificarTituloSubscricao()
         homePage.informarEmailSubscricao(usuarios.usuarioCorreto.email)
         homePage.verificarMensagemDeEnvioDeSubscricaoSucesso()
+   })
+
+   it.only('Finalizar pedido: Criação de conta antes do checkout', () => {
+        cy.visit('/')
+        homePage.acessarMenuCadastro();
+        
+        cadastro.iniciarCadastro(`pgats_${Date.now()}@test.com`)
+        cadastro.preencherCadastro()
+        cadastro.verificarCadastroEfetuadoSucesso()
+
+        homePage.acessarMenuProdutos()
+
+        produtos.verificarTituloTodosProdutos()
+        produtos.clicarEmAdicionarNoCarrinhoDoPrimeiroProdutoListado()
+        produtos.clicarVisualizarCarrinho()
+
+        carrinho.clicarProsseguirComCheckout()
+        checkout.verificarTelaCheckout()
+        checkout.clicarProsseguirParaPagamento()
+
+        pagamento.informarDadosDoCartao(cartoes.cartaoValido.nomeNoCartao,
+                                        cartoes.cartaoValido.numeroCartao,
+                                        cartoes.cartaoValido.cvv,
+                                        cartoes.cartaoValido.mesExpiracao,
+                                        cartoes.cartaoValido.anoExpiracao
+        )
+
+        pedidoConcluido.verificarConclusaoPedido()
    })
     
 })
