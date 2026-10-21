@@ -60,9 +60,10 @@ describe('Automation Excercise', () =>{
         
         detalheProduto.verificarProdutoApresentado('Blue Top', 
                                                    'Women > Tops',
-                                                    'In Stock',
-                                                    'New',
-                                                    'Polo')
+                                                   '500',
+                                                   'In Stock',
+                                                   'New',
+                                                   'Polo')
     })
     
 })
