@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-const header = require('../modules/header/index.js')
+const homePage = require('../modules/homePage/index.js')
 const cadastro = require('../modules/cadastro/index.js')
 const login = require('../modules/login/index.js')
 const produtos = require('../modules/produtos/index.js')
@@ -10,7 +10,7 @@ const usuarios = require('../fixtures/usuarios.json')
 describe('Automation Excercise', () =>{
     it('Cadastrar um novo usuário com sucesso', () =>{
         cy.visit('/')
-        header.acessarMenuCadastro();
+        homePage.acessarMenuCadastro();
         
         cadastro.iniciarCadastro(`pgats_${Date.now()}@test.com`)
         cadastro.preencherCadastro()
@@ -43,7 +43,7 @@ describe('Automation Excercise', () =>{
 
     it('Tentar cadastrar usuário com e-mail já cadastrado', () => {
         cy.visit('/')
-        header.acessarMenuCadastro();
+        homePage.acessarMenuCadastro();
 
         cadastro.iniciarCadastro(usuarios.usuarioCorreto.email)
 
@@ -53,7 +53,7 @@ describe('Automation Excercise', () =>{
 
     it('Verificar todos os produtos e a página de detalhe do produto', () =>{
         cy.visit('/')
-        header.acessarMenuProdutos()
+        homePage.acessarMenuProdutos()
 
         produtos.verificarTituloTodosProdutos()
         produtos.clicarNoDetalheDoPrimeiroProdutoListado()
@@ -66,16 +66,24 @@ describe('Automation Excercise', () =>{
                                                    'Polo')
     })
 
-   it.only('Pesquisar produto', () => {
+   it('Pesquisar produto', () => {
         const produto = 'Summer White Top'
 
         cy.visit('/')
-        header.acessarMenuProdutos()
+        homePage.acessarMenuProdutos()
 
         produtos.verificarTituloTodosProdutos()
         produtos.pesquisarProduto(produto)
         produtos.verificarProdutoPesquisado(produto)
         
+   })
+
+   it('Verificar subscrição na home page', () => {
+        cy.visit('/')
+        homePage.rolarParaRodapePagina()
+        homePage.verificarTituloSubscricao()
+        homePage.informarEmailSubscricao(usuarios.usuarioCorreto.email)
+        homePage.verificarMensagemDeEnvioDeSubscricaoSucesso()
    })
     
 })
