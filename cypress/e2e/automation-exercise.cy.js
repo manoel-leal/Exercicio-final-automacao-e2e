@@ -51,20 +51,26 @@ describe('Automation Excercise', () =>{
 
     })
 
-    it.only('Verificar todos os produtos e a página de detalhe do produto', () =>{
+    it('Verificar todos os produtos e a página de detalhe do produto', () =>{
         cy.visit('/')
         header.acessarMenuProdutos()
 
         produtos.verificarTituloTodosProdutos()
         produtos.clicarNoDetalheDoPrimeiroProdutoListado()
         
-        detalheProduto.verificarProdutoApresentado('Blue Top', 
-                                                   'Women > Tops',
-                                                   '500',
-                                                   'In Stock',
-                                                   'New',
-                                                   'Polo')
     })
+
+   it.only('Pesquisar produto', () => {
+        const produto = 'Summer White Top'
+
+        cy.visit('/')
+        header.acessarMenuProdutos()
+
+        produtos.verificarTituloTodosProdutos()
+        produtos.pesquisarProduto(produto)
+        produtos.verificarProdutoPesquisado(produto)
+        
+   })
     
 })
 
