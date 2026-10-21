@@ -58,6 +58,12 @@ describe('Automation Excercise', () =>{
         produtos.verificarTituloTodosProdutos()
         produtos.clicarNoDetalheDoPrimeiroProdutoListado()
         
+        detalheProduto.verificarProdutoApresentado('Blue Top', 
+                                                   'Women > Tops',
+                                                   '500',
+                                                   'In Stock',
+                                                   'New',
+                                                   'Polo')
     })
 
    it.only('Pesquisar produto', () => {
