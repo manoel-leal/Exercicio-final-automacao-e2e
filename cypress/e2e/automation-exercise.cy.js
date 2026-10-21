@@ -3,6 +3,8 @@
 const header = require('../modules/header/index.js')
 const cadastro = require('../modules/cadastro/index.js')
 const login = require('../modules/login/index.js')
+const produtos = require('../modules/produtos/index.js')
+const detalheProduto = require('../modules/detalheProduto/index.js')
 const usuarios = require('../fixtures/usuarios.json')
 
 describe('Automation Excercise', () =>{
@@ -39,15 +41,29 @@ describe('Automation Excercise', () =>{
 
     })
 
-  it('Tentar cadastrar usuário com e-mail já cadastrado', () => {
-    cy.visit('/')
-    header.acessarMenuCadastro();
+    it('Tentar cadastrar usuário com e-mail já cadastrado', () => {
+        cy.visit('/')
+        header.acessarMenuCadastro();
 
-    cadastro.iniciarCadastro(usuarios.usuarioCorreto.email)
+        cadastro.iniciarCadastro(usuarios.usuarioCorreto.email)
 
-    cadastro.verificarQueUsuarioJaFoiCadastrado()
+        cadastro.verificarQueUsuarioJaFoiCadastrado()
 
-  })
+    })
+
+    it.only('Verificar todos os produtos e a página de detalhe do produto', () =>{
+        cy.visit('/')
+        header.acessarMenuProdutos()
+
+        produtos.verificarTituloTodosProdutos()
+        produtos.clicarNoDetalheDoPrimeiroProdutoListado()
+        
+        detalheProduto.verificarProdutoApresentado('Blue Top', 
+                                                   'Women > Tops',
+                                                    'In Stock',
+                                                    'New',
+                                                    'Polo')
+    })
     
 })
 
